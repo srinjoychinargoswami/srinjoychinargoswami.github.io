@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
-<title> SMART ASSAY Data Analysis</title>
+<title> SARS-CoV-2 SMART-Assay</title>
 <link rel="stylesheet" href="style_covid_19.css">	
 </head>
 
 <header>
-  <h1>Aanotech's SMART  ASSAY Data analysis  </h1>
+  <h1>SARS-CoV-2 SMART-Assay</h1>
 </header>
-<p style="font-size: 1.5em;">AlbaNYlabs and Aanotech with NYDOH have developed a new COVID-19 Assay and by inputting the values for Genomic CT.</p>
-
-
-<h3>Sample Fold change calculation for Positive or Negative Sample for COVID 19</h3>
+<h3>Subgenomic mRNA Active Replication Test (SMART)</h3>
 <form>
 <table>
     <tbody>
 <tr>
-<td>Genomic CT value</td> 
+<td>Genomic Ct value</td> 
 <td><input id="Genomic" type="number" min = "0" placeholder="Genomic CT value" /></td>
 </tr>
 <tr>
-<td>Subgenomic CT value</td> 
+<td>Subgenomic Ct value</td> 
 <td><input id="Subgenomic" type="number" min = "0" placeholder="Subgenomic CT value" /></td>    
 </tr>
 <tr>
-<td>RPN CT value</td>
+<td>RPN Ct value</td>
 <td><input id="RPN" type="number" min = "0" max = "36" placeholder="RPN CT value" /></td>
 </tr>
 </tbody>
@@ -38,6 +35,8 @@
  
 </form>
 
+<h2><strong>Disclaimer:</strong></h2>
+<p>The results derived here are only for research purposes, this is not to be used for diagnosis. A diagnosis is only made by a clinician in conjunction with approved diagnostic tests, a physical examination, and medical history.</p>
 
 <script> 
 
@@ -51,18 +50,18 @@ var delta_delta = (delta_genomic - delta_subgenomic)
 var fold = Math.pow(2, -delta_delta )
 
 if (RPN >= 36) { 
-        document.getElementById("result").innerHTML =  "Result:" +'Result is invalid due to RPN CT value being greater than 36';
+        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to low RPN values';
 } else if (genomic <= 22) { 
-        document.getElementById("result").innerHTML = "Result: " +  'Sample is positive for COVID-19';
+        document.getElementById("result").innerHTML = "Result: " +  'Patient is Positive for actively replicating SARS-CoV-2 Virus';
 } else if (genomic >= 36) { 
-        document.getElementById("result").innerHTML = "Result:" + 'Sample is negative for COVID-19';
+        document.getElementById("result").innerHTML = "Result:" + 'Patient is Negative for actively replicating SARS-CoV-2 Virus';
 } else if (genomic > 22 && genomic < 36) {
     if (fold >= 0.01903) { 
-        document.getElementById('result').innerHTML = "Result: " + 'Sample is positive for COVID-19'; 
+        document.getElementById('result').innerHTML = "Result: " + 'Patient is Positive for actively replicating SARS-CoV-2 Virus'; 
         
     } 
     else if (fold < 0.01903) { 
-        document.getElementById('result').innerHTML = "Result:" + 'Sample is negative for COVID-19';
+        document.getElementById('result').innerHTML = "Result:" + 'Patient is Negative for actively replicating SARS-CoV-2 Virus';
     } 
 }
 
