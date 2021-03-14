@@ -48,7 +48,7 @@ var subgenomic = Number(document.getElementById("Subgenomic").value);
 var RPN = Number(document.getElementById("RPN").value);
 var delta_genomic = (genomic - RPN)
 var delta_subgenomic = (subgenomic - RPN )
-var delta_delta = (delta_genomic - delta_subgenomic)
+var delta_delta = (delta_subgenomic - delta_genomic)
 var fold = Math.pow(2, -delta_delta )
 
 if (RPN >= 36) { 
