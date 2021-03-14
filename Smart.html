@@ -51,9 +51,11 @@ var delta_subgenomic = (subgenomic - RPN_ct )
 var delta_delta = (delta_subgenomic - delta_genomic)
 var fold = Math.pow(2, -delta_delta )
 
-if (RPN >= 36) { 
+if (RPN_ct >= 36) { 
         document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to low RPN values';
-} else if (genomic <= 22) { 
+} 
+  if (RPN_ct < 36) { 
+   if (genomic <= 22) { 
         document.getElementById("result").innerHTML = "Result: " +  'Patient is Positive for actively replicating SARS-CoV-2 Virus';
 } else if (genomic >= 36) { 
         document.getElementById("result").innerHTML = "Result:" + 'Patient is Negative for actively replicating SARS-CoV-2 Virus';
@@ -66,7 +68,7 @@ if (RPN >= 36) {
     } 
 }
 
-    
+  }      
 }
     
 
