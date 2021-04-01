@@ -55,7 +55,8 @@ var fold = Math.pow(2, -delta_delta )
 
 if (RPN_ct >= 36) { 
         document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to low RPN CT values';
-} else if ( genomic > 40) { 
+}  
+  if (genomic > 40) { 
   document.getElementById("result").innerHTML = "Result:" + 'Invalid run due to high Genomic CT value';
 }
   if (RPN_ct < 36) { 
