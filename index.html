@@ -1,40 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
 <title>Srinjoy Chinar Goswami</title>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body class="w3-black">
 
-<body>
-	
-	<header> 
-	<div class="Introduction">
-		<center><h4>The Personal Website of Srinjoy Chinar Goswami. 
-      A full website will be up. A main homepage with different pages one can go to Products offered which include: Programs developed for the Opentrons 
-      OT2 Robot in python (will be publically available) with description of the program. Website templates for those who would like websites coded and maintained are 
-      available well. Access to the COVID-19 Risk Calculator developed with Aanotech. Lastly Programs for bioinformatics. There will be services page. 
-      I will be offering many freelancer services which include tutoring online through zoom or other video calling platforms. The courses I can tutor in will be listed. 
-      Website development with the template of choice that has been made from the products section. You can see the other websites that I have made to understand what type of 
-      website quality you will get. I also can develop websites through different website builders, GoDaddy, Wix, Google Sites, Yahoo site builder etc. 
-      I also can do Python programming for the opentrons OT2 robot and can set it up the robot. The python program development is done on the condition that the program 
-      written will be available for public use here. There will be an About me page. Lastly, there will be a Contact me page with a form to fill out.</h4></center>
-		<strong><hr></strong>
-	
-	
-	<div class="scrollmenu">
-  <a href="https://srinjoychinargoswami.github.io/" target=_blank">Home</a>
-  <a href="https://srinjoychinargoswami.github.io/" target=_blank">About Me</a>
-  <a href="https://srinjoychinargoswami.github.io/" target=_blank">Services Offered</a>
-  <a href="https://srinjoychinargoswami.github.io/">Products Available</a>
-  <a href="#WillFigureOut" target=_blank">See Previous work I have done</a>
-  <a href="#Contact">Contact form</a>
- 	
-  </div> 
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+  <img src="/w3images/avatar_smoke.jpg" style="width:100%">
+  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
+    <i class="fa fa-home w3-xxlarge"></i>
+    <p>HOME</p>
+  </a>
+  <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-user w3-xxlarge"></i>
+    <p>ABOUT ME</p>
+  </a>
+  <a href="#services" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-eye w3-xxlarge"></i>
+    <p>SERVICES OFFERED</p> </a>
+      <a href="#products" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-eye w3-xxlarge"></i>
+    <p>PRODUCTS AVAILABLE</p> </a>
+  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-envelope w3-xxlarge"></i>
+    <p>CONTACT ME</p>
+  </a>
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+   <a href="#home" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+<a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT ME</a>
+<a href="#services" class="w3-bar-item w3-button" style="width:25% !important">SERVICES OFFERED</a>
+<a href="#products" class="w3-bar-item w3-button" style="width:25% !important">PRODUCTS AVAILABLE</a>
+<a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT ME</a>
+  </div>
 </div>
 
-		    
-<style> 
-		    
-		    
-		    
-		    </style> 
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+    <h1 class="w3-jumbo"><span class="w3-hide-small">I'm</span> Srinjoy Goswami.</h1>
+    <p>Student, Laboratory Assistant, Freelance Web Developer and Technical Support.</p>
+    <img src="/w3images/man_smoke.jpg" alt="boy" class="w3-image" width="992" height="1108">
+  </header>
+
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+    <h2 class="w3-text-light-grey">Srinjoy Goswami</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>My name is Srinjoy Goswami. I'm a Junior Yalow Honor Scholar at Hunter College pursing a Bachelors Degree in Biological Sciences with a concentration in Bioinformatics. I intend to go to Medical School for MD PHD. I work at Weill Cornell Medicine as a Laboratory Assistant for the Hematology/Oncology Department. I work in one of the labs of the same department as an Undergraduate Researcher focusing on understanding Acute Myeloid Leukemia. In addition, I do freelance work as a web developer and working towards developing software for research and clincal purposes. 
+    </p>
+   
+  
+    <!-- Footer -->
+
+<!-- END PAGE CONTENT -->
+</div>
+</div>
+
+</body>
+</html>
+
