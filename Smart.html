@@ -11,6 +11,8 @@
 <h3>Subgenomic mRNA Active Replication Test (SMART) Data Analysis and Reporting Software</h3>
 
 <h4> Input the values as round figures, no decimal points </h4>
+<h4> If Subgenomic RNA is undetected, Please write the Subgenomic CT value as 45 in the Calculator</h4>
+
 <form>
 <table>
     <tbody>
@@ -52,8 +54,10 @@ var delta_delta = (delta_subgenomic - delta_genomic)
 var fold = Math.pow(2, -delta_delta )
 
 if (RPN_ct >= 36) { 
-        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to low RPN values';
-} 
+        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to low RPN CT values';
+} else if ( genomic > 40) { 
+  document.getElementById("result").innerHTML = "Result:" + 'Invalid run due to high Genomic CT value';
+}
   if (RPN_ct < 36) { 
    if (genomic <= 22) { 
         document.getElementById("result").innerHTML = "Result: " +  'Patient is Positive for actively replicating SARS-CoV-2 Virus';
