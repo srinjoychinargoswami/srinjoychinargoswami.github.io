@@ -18,15 +18,15 @@
     <tbody>
 <tr>
 <td>Genomic Ct value</td> 
-<td><input id="Genomic" type="number" min = "0" placeholder="Genomic CT value" /></td>
+<td><input id="Genomic" type="number" min = "0" placeholder="Genomic Ct value" /></td>
 </tr>
 <tr>
 <td>Subgenomic Ct value</td> 
-<td><input id="Subgenomic" type="number" min = "0" placeholder="Subgenomic CT value" /></td>    
+<td><input id="Subgenomic" type="number" min = "0" placeholder="Subgenomic Ct value" /></td>    
 </tr>
 <tr>
 <td>RPN Ct value</td>
-<td><input id="RPN" type="number" min = "0"  placeholder="RPN CT value" /></td>
+<td><input id="RPN" type="number" min = "0"  placeholder="RPN Ct value" /></td>
 </tr>
 </tbody>
 </table>
@@ -54,13 +54,13 @@ var delta_delta = (delta_subgenomic - delta_genomic)
 var fold = Math.pow(2, -delta_delta )
 
 if (RPN_ct >= 36) { 
-        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to RPN CT values';
+        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to RPN Ct values';
 }  
 if (RPN_ct < 36) { 
    if (genomic <= 22) { 
         document.getElementById("result").innerHTML = "Result: " +  'Sample is Positive for actively replicating SARS-CoV-2 Virus';
 } else if (genomic > 40) { 
-  document.getElementById("result").innerHTML = "Result: " + 'Invalid Run due to Genomic CT value';
+  document.getElementById("result").innerHTML = "Result: " + 'Invalid Run due to Genomic Ct value';
 } else if (genomic >= 36 && genomic <= 40) { 
         document.getElementById("result").innerHTML = "Result:" + 'Sample is Negative for actively replicating SARS-CoV-2 Virus';
 } else if (genomic > 22 && genomic < 36) {
