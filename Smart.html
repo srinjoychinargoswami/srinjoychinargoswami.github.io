@@ -50,7 +50,7 @@ var subgenomic = Number(document.getElementById("Subgenomic").value);
 var RPN_ct = Number(document.getElementById("RPN").value);
 var delta_genomic = (genomic - RPN_ct)
 var delta_subgenomic = (subgenomic - RPN_ct )
-var delta_delta = (delta_subgenomic - delta_genomic)
+var delta_delta = ((subgenomic - genomic) - RPN_ct)
 var fold = Math.pow(2, -delta_delta )
 
 if (RPN_ct >= 36) { 
@@ -64,10 +64,10 @@ if (RPN_ct < 36) {
 } else if (genomic >= 36 && genomic <= 40) { 
         document.getElementById("result").innerHTML = "Result:" + 'Sample is Negative for actively replicating SARS-CoV-2 Virus';
 } else if (genomic > 22 && genomic < 36) {
-    if (fold >= 0.01903) { 
+    if (fold >= 2444508) { 
         document.getElementById('result').innerHTML = "Result: " + 'Sample is Positive for actively replicating SARS-CoV-2 Virus'; 
         
-} else if (fold < 0.01903) { 
+} else if (fold < 2444508) { 
         document.getElementById('result').innerHTML = "Result:" + 'Sample is Negative for actively replicating SARS-CoV-2 Virus';
     } 
 }
