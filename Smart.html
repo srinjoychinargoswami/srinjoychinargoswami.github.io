@@ -48,8 +48,6 @@ function genomic () {
 var genomic = Number(document.getElementById("Genomic").value);
 var subgenomic = Number(document.getElementById("Subgenomic").value);
 var RPN_ct = Number(document.getElementById("RPN").value);
-var delta_genomic = (genomic - RPN_ct)
-var delta_subgenomic = (subgenomic - RPN_ct )
 var delta_delta = ((subgenomic - genomic) - RPN_ct)
 var fold = Math.pow(2, -delta_delta )
 
