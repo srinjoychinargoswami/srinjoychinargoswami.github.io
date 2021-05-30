@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <title>Srinjoy Chinar Goswami</title>
@@ -12,9 +13,9 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 /* Set the width of the sidebar to 120px */
 .w3-sidebar {width: 120px;background: #222;}
 /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
-#main {margin-right: 120px}
+#main {margin-left: 120px}
 /* Remove margins from "page content" on small screens */
-@media only screen and (max-width: 600px) {#main {margin-right: 0}}
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
 </style>
 <body class="w3-black">
 
@@ -54,18 +55,11 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
   </div>
 </div>
-<!-- Right Column -->
- <style>
-.content {
-  max-width: 1500px;
-  margin: auto;
-}
-</style>
-  <body>
-  <div class="content">
-    <div class="w3-twothird">
-      
-      <div class="w3-white w3-text-grey w3-card-4">
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
           <img src="/w3images/avatar_hat.jpg" style="width:100%" alt="Avatar">
           <div class="fa fa-suitcase fa-fw w3--right w3-large w3-text-teal">
@@ -74,70 +68,36 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
         </div>
         <div class="w3-container w3-card w3-black w3-margin-bottom">
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Student, Laboratory Assistant, Freelance Web Developer and Technical Support.</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>Mamroneck, NY</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>Mamaroneck, NY</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>srinjoygoswami@gmail.com</p>
           <hr>
-
-    <!-- End Left Column -->
+  </header>
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+    <h2 class="w3-text-light-grey">Srinjoy Goswami</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>My name is Srinjoy Goswami. I'm a Junior Yalow Honor Scholar at Hunter College pursing a Bachelors Degree in Biological Sciences with a concentration in Bioinformatics. 
+      I intend to go to Medical School for MD PHD. I work at Weill Cornell Medicine as a Laboratory Assistant for the Hematology/Oncology Department and I work in the Guzman Laboratory 
+      of the same department as an Undergraduate Researcher focusing on understanding Acute Myeloid Leukemia. In addition, I do freelance work as a web developer and working 
+      towards developing software for research and clincal purposes. To Learn More About Me, Click on the different pages. To contact me please use </p>
     </div>
-    
-      <div class="w3-container w3-card w3-black w3-margin-bottom">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Experience</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>WEBSITE DESIGNER, TECHNICAL SUPPORT, RESEARCH ASSISTANT, AlbaNYlabs, ALBANY, NY</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>April 2020 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
-          <ul>
-            <li><p>Developed company website, management of the website hosting services, Email servers.</p></li>
-            <li><p>Management of Website, hosting and email servers.</p></li>
-            <li><p>Installation of machinery and computers for use</p></li>
-            <li><p>Assisting in the development of the SMART COVID-19 Assay collaboration with Aanotech</p></li>
-          
-          
-          
-          </ul>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>
-          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Graphic Designer / designsomething.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jun 2010 - Mar 2012</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
-        </div>
-      </div>
+<div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <h2 class="w3-text-light-grey">Contact Me</h2>
+    <hr style="width:200px" class="w3-opacity">
 
-      <div class="w3-container w3-card w3-white">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>W3Schools.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-          <p>Web Development! All I need to know in one place</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>London Business School</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-          <p>Master Degree</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>School of Coding</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2010 - 2013</h6>
-          <p>Bachelor Degree</p><br>
-        </div>
-      </div>
-        
-
-    <!-- End Right Column -->
+    <div class="w3-section">
+      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> New York,New York, USA</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: srinjoygoswami@mail.com</p>
     </div>
-    </div>
-    </body>
-  <!-- End Grid -->
+    <p>Let's get in touch. Send me a message:</p>
   </div>
   
-  <!-- End Page Container -->
+    <!-- Footer -->
+  
+
+<!-- END PAGE CONTENT -->
 </div>
+
+</body>
+</html>
+
