@@ -1,4 +1,4 @@
-
+<script> 
 
 function genomic () { 
 var genomic = Number(document.getElementById("Genomic").value);
@@ -32,3 +32,4 @@ if (RPN_ct < 36) {
 
 
 
+</script> 
