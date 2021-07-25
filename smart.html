@@ -77,3 +77,19 @@ if (RPN_ct < 36) {
 
 
 </script>
+<script>
+document.addEventListener("keydown", function(e){
+  // USE THIS TO DISABLE CONTROL AND ALL FUNCTION KEYS
+  // if (e.ctrlKey || (e.keyCode>=112 && e.keyCode<=123)) {
+  // THIS WILL ONLY DISABLE CONTROL AND F12
+  if (e.ctrlKey || e.keyCode==123) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+});
+</script>
+
+<p>
+  Try to press CTRL-U or F12 - Nothing will probably happen.
+</p>
+
