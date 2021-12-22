@@ -1012,7 +1012,15 @@ th {
   background-color: #f8f8f8;
 }
 					
-					// Breakpoints
+.center { 
+	margin-left: auto;
+margin-right: auto;
+text-align:center;
+
+}
+
+
+// Breakpoints
 $large-breakpoint: 64em !default;
 $medium-breakpoint: 42em !default;
 
