@@ -30,7 +30,8 @@
  <br />
  <br />
    <input class="submit" type="button" value="Submit" onclick="genomic()" />
-  <p id = "result" > Result:     </p> 
+  <p id = "result" > Result:     </p>
+  <input type="button" onclick="myfunction2()" value="Reset Results"
    <input type="button" onclick="myFunction()" value="Reset form">
 </form>
 <h2><strong>Disclaimer:</strong></h2>
@@ -84,4 +85,8 @@ document.addEventListener("keydown", function(e){
   document.getElementById("myForm").reset();
 }
 </script>
+<script> 
+  function myFunction2(){ 
+    document.getElementById('result').reset(); 
+  } 
 </script>  
