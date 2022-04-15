@@ -1046,4 +1046,11 @@ $hr-border-color: #eff0f1 !default;
 .Immunocompormised, .number {
 		outline: 5px solid black;
 }
+
+body {
+  background-color: #AFDCEC;
+}
+body {
+ family-font: Merriweather;
+}
 </style>
