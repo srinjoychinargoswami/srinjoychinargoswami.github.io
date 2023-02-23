@@ -26,9 +26,9 @@ def smart():
 		result.config(text="Sample is negative for for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus")
 	elif genomicentryvalue >=36 and genomicentryvalue <= 40: 
 		result.config(text="Sample is Negative for activley replicating SARS-CoV-2 Virus")
-	elif (genomicentryvalue > 23 and genomicentryvalue <=35) and (fold >= 523823): 
+	elif (genomicentryvalue > 23 and genomicentryvalue <=35) and (fold >= 1751090): 
 		result.config(text="Sample is positive for actively replicating SARS-CoV-2 Virus") 
-	elif fold < 523823: 
+	elif fold < 1751090: 
 		result.config(text="Sample is Negative for activley replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus")
 
 
