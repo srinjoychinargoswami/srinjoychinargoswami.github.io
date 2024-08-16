@@ -43,15 +43,19 @@ var subgenomic = Number(document.getElementById("Subgenomic").value);
 var RPN_ct = Number(document.getElementById("RPN").value);
 var delta_delta = ((subgenomic - genomic) - RPN_ct)
 var fold = Math.pow(2, -delta_delta )
+// Remember in this code, for Inconsistency, it has be less than 40 for subgenomic essentially 39 and below & 40 for genomic
+// For negative for SARS-CoV-2 it needs to be 40 and 40 essentially for both
 
 if (RPN_ct > 38) { 
         document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to RNAse P Ct values';
-}  
+} 
 if (RPN_ct <= 38) { 
    if (genomic <= 23) { 
         document.getElementById("result").innerHTML = "Result: " +  'Sample is Positive for actively replicating SARS-CoV-2 Virus';
-} else if (genomic >= 40 ) { 
+} else if (genomic >= 40 && subgenomic >= 40 ) { 
   document.getElementById("result").innerHTML = "Result: " + 'Sample is Negative for SARS-CoV-2';
+} else if (genomic >= 40 && subgenomic < 40) { 
+  document.getElementById("result").innerHTML = "Result: " + 'Invalid run due to Inconsistency';
 } else if (genomic >= 35 ) { 
   document.getElementById("result").innerHTML = "Result: " + 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus';
 } else if (genomic >= 36 && genomic <= 40) { 
