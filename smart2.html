@@ -177,21 +177,20 @@
             results.push({id: cells[0].textContent, result: cells[1].textContent});
         });
 
-        const csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Patient ID,Result\n"; // Header
+        const csvContent = "Patient ID,Result\n"; // Header
 
         results.forEach(result => {
-            const row = `${result.id},${result.result }`;
-            csvContent += row + "\n ";
+            const row = `${result.id},${result.result}`;
+            csvContent += row + "\n";
         });
 
-        const encodedUri = encodeURI(csvContent);
+        const blob = new Blob([csvContent], {type: 'text/csv'});
+        const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "sars_cov_2_results.csv");
-        document.body.appendChild(link);
+ link.href = url;
+        link.download = "sars_cov_2_results.csv";
         link.click();
-        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 </script>
 </body>
