@@ -82,7 +82,7 @@
                 document.getElementById("result").innerHTML = "Result: Invalid run due to Inconsistency";
             } else if (genomic >= 35) {
                 document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
-            } else if (genomic >= 36 && genomic <=  40) {
+            } else if (genomic >= 36 && genomic <= 40) {
                 document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
                 if (fold >= 1618756) {
@@ -113,30 +113,31 @@
             // Process the data
             const results = [];
             json.forEach(row => {
-                const genomic = row[0];
-                const subgenomic = row[1];
-                const RPN_ct = row[2];
+                const patientId = row[0];
+                const RPN_ct = row[1];
+                const genomic = row[2];
+                const subgenomic = row[3];
                 var delta_delta = ((subgenomic - genomic) - RPN_ct);
                 var fold = Math.pow(2, -delta_delta);
 
                 if (RPN_ct > 38) {
-                    results.push({id: row[3], result: 'Invalid run due to RNAse P Ct values'});
+                    results.push({id: patientId, result: 'Invalid run due to RNAse P Ct values'});
                 } else {
                     if (genomic <= 23) {
-                        results.push({id: row[3], result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
+                        results.push({id: patientId, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
                     } else if (genomic >= 40 && subgenomic >= 40) {
-                        results.push({id: row[3], result: 'Sample is Negative for SARS-CoV-2'});
+                        results.push({id: patientId, result: 'Sample is Negative for SARS-CoV-2'});
                     } else if (genomic >= 40 && subgenomic < 40) {
-                        results.push({id: row[3], result: 'Invalid run due to Inconsistency'});
+                        results.push({id: patientId, result: 'Invalid run due to Inconsistency'});
                     } else if (genomic >= 35) {
-                        results.push({id: row[3], result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
+                        results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
                     } else if (genomic >= 36 && genomic <= 40) {
-                        results.push({id: row[3], result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
+                        results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
                     } else if (genomic > 23 && genomic <= 35) {
                         if (fold >= 1618756) {
-                            results.push({id: row[3], result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
+                            results.push({id: patientId, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
                         } else if (fold < 1618756) {
-                            results.push({id: row[3], result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
+                            results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
                     }
                 }
@@ -180,8 +181,8 @@
         csvContent += "Patient ID,Result\n"; // Header
 
         results.forEach(result => {
-            const row = `${result.id},${result.result}`;
-            csvContent += row + "\n";
+            const row = `${result.id},${result.result }`;
+            csvContent += row + "\n ";
         });
 
         const encodedUri = encodeURI(csvContent);
