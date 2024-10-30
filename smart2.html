@@ -49,7 +49,7 @@
     <br />
     <input class="submit" type="button" value="Submit" onclick="genomic()" />
     <p id="result">Result:</p>
-    <input type="button" onclick="myFunction()" value="Reset form" />
+    <input type="button" onclick="resetForm()" value="Reset form" />
 </form>
 
 <h2><strong>Disclaimer:</strong></h2>
@@ -84,7 +84,7 @@
             } else if (genomic >= 35) {
                 document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
             } else if (genomic >= 36 && genomic <= 40) {
-                document.get Eleme ntById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
+                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
                 if (fold >= 1618756) {
                     document.getElementById('result').innerHTML = "Result: Sample is Positive for actively replicating SARS-CoV-2 Virus";
@@ -95,7 +95,7 @@
         }
     }
 
-    function myFunction() {
+    function resetForm() {
         document.getElementById("myForm").reset();
         document.getElementById("result").innerHTML = "Result:";
     }
@@ -136,6 +136,7 @@
             // Process the data
             const results = [];
             json.forEach(row => {
+                if (row.length < 4) return; // Ensure there are enough columns
                 const patientId = row[0];
                 const genomic = row[1];
                 const subgenomic = row[2];
