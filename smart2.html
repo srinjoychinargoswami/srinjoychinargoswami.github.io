@@ -1,232 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>SARS-CoV-2 SMART-Assay</title>
-    <link rel="stylesheet" href="style_covid_19.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+<meta charset="utf-8">
+<title> SARS-CoV-2 SMART-Assay</title>
+<link rel="stylesheet" href="style_covid_19.css">	
 </head>
-<body>
 <header>
-    <center><h1>SARS-CoV-2 SMART-Assay</h1></center>
+  <center><h1>SARS-CoV-2 SMART-Assay</h1></center>
 </header>
 <h3>Subgenomic mRNA Active Replication Test (SMART) Data Analysis and Reporting Software</h3>
-<h4>Input the values as round figures, no decimal points</h4>
-<h4>If any of the 3 Ct values is "undetected" please write the respective value as 45 in the calculator</h4>
-
-<!-- Individual Sample Input Form -->
+<h4> Input the values as round figures, no decimal points </h4>
+<h4> If any of the 3 Ct values is "undetected" please write the respective value as 45 in the calculator</h4>
 <form id="myForm">
-    <table>
-        <tbody>
-        <tr>
-            <td>Genomic Ct value</td>
-            <td><input id="Genomic" type="number" min="0" placeholder="Genomic Ct value" /></td>
-        </tr>
-        <tr>
-            <td>Subgenomic Ct value</td>
-            <td><input id="Subgenomic" type="number" min="0" placeholder="Subgenomic Ct value" /></td>
-        </tr>
-        <tr>
-            <td>RNAse P Ct value</td>
-            <td><input id="RPN" type="number" min="0" placeholder="RNAse P Ct value" /></td>
-        </tr>
-        </tbody>
-    </table>
-    <br />
-    <input class="submit" type="button" value="Submit" onclick="genomic()" />
-    <p id="result">Result:</p>
-    <input type="button" onclick="resetForm()" value="Reset form" />
+<table>
+    <tbody>
+<tr>
+<td>Genomic Ct value</td> 
+<td><input id="Genomic" type="number" min = "0" placeholder="Genomic Ct value" /></td>
+</tr>
+<tr>
+<td>Subgenomic Ct value</td> 
+<td><input id="Subgenomic" type="number" min = "0" placeholder="Subgenomic Ct value" /></td>    
+</tr>
+<tr>
+<td>RNAse P Ct value</td>
+<td><input id="RPN" type="number" min = "0"  placeholder="RNAse P Ct value" /></td>
+</tr>
+</tbody>
+</table>
+ <br />
+ <br />
+   <input class="submit" type="button" value="Submit" onclick="genomic()" />
+  <p id = "result" > Result:     </p>
+   <input type="button" onclick="myFunction()" value="Reset form" />
 </form>
-
 <h2><strong>Disclaimer:</strong></h2>
-<p>The results derived here are only for research purposes; this is not to be used for diagnosis. A diagnosis is only made by a clinician in conjunction with approved diagnostic tests, a physical examination, and medical history.</p>
+<p>The results derived here are only for research purposes, this is not to be used for diagnosis. A diagnosis is only made by a clinician in conjunction with approved diagnostic tests, a physical examination, and medical history.</p>
 
-<!-- Bulk Sample Processing Section -->
-<h3>Bulk Sample Processing</h3>
-<input type="file" id="fileInput" accept=".csv, .tsv, .xlsx, .xls" />
-<button onclick="handleFile()">Upload and Analyze</button>
-<button id="resetBulkBtn" onclick="resetBulkProcessing()">Reset Bulk Processing</button>
-<div id="output"></div>
-<button id="downloadBtn" style="display:none;" onclick="downloadResults()">Download Results</button>
+<script> 
+function genomic () { 
+var genomic = Number(document.getElementById("Genomic").value);
+var subgenomic = Number(document.getElementById("Subgenomic").value);
+var RPN_ct = Number(document.getElementById("RPN").value);
+var delta_delta = ((subgenomic - genomic) - RPN_ct)
+var fold = Math.pow(2, -delta_delta )
+// Remember in this code, for Inconsistency, it has be less than 40 for subgenomic essentially 39 and below & 40 for genomic
+// For negative for SARS-CoV-2 it needs to be 40 and 40 essentially for both
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-<script>
-    function genomic() {
-        var genomic = Number(document.getElementById("Genomic").value);
-        var subgenomic = Number(document.getElementById("Subgenomic").value);
-        var RPN_ct = Number(document.getElementById("RPN").value);
-        var delta_delta = ((subgenomic - genomic) - RPN_ct);
-        var fold = Math.pow(2, -delta_delta);
-
-        if (RPN_ct > 38) {
-            document.getElementById("result").innerHTML = "Result: Invalid run due to RNAse P Ct values";
-        } else {
-            if (genomic <= 23) {
-                document.getElementById("result").innerHTML = "Result: Sample is Positive for actively replicating SARS-CoV-2 Virus";
-            } else if (genomic >= 40 && subgenomic >= 40) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for SARS-CoV-2";
-            } else if (genomic >= 40 && subgenomic < 40) {
-                document.getElementById("result").innerHTML = "Result: Invalid run due to Inconsistency";
-            } else if (genomic >= 35) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
-            } else if (genomic >= 36 && genomic <= 40) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
-            } else if (genomic > 23 && genomic <= 35) {
-                if (fold >= 1618756) {
-                    document.getElementById('result').innerHTML = "Result: Sample is Positive for actively replicating SARS-CoV-2 Virus";
-                } else if (fold < 1618756) {
-                    document.getElementById('result').innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.";
-                }
-            }
-        }
-    }
-
-    function resetForm() {
-        document.getElementById("myForm").reset();
-        document.getElementById("result").innerHTML = "Result:";
-    }
-
-    function handleFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        let readMethod;
-
-        // Check the file extension
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-        if (fileExtension === 'csv' || fileExtension === 'tsv') {
-            readMethod = 'readAsText';
-        } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-            readMethod = 'readAsArrayBuffer';
-        } else {
-            alert('Unsupported file type. Please upload a .csv, .tsv, .xlsx, or .xls file.');
-            return;
-        }
-
-        reader.onload = function(e) {
-            const data = e.target.result;
-            let json;
-
-            if (readMethod === 'readAsText') {
-                // Parse CSV or TSV
-                const rows = data.split('\n').map(row => row.split(fileExtension === 'csv' ? ',' : '\t').map(cell => cell.trim()));
-                json = rows.filter(row => row.length > 0); // Remove empty rows
-            } else if (readMethod === 'readAsArrayBuffer') {
-                // Parse XLSX or XLS
-                const workbook = XLSX.read(data, {type: 'array'});
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-            }
-
-            // Process the data
-            const results = [];
-            json.forEach(row => {
-                if (row.length < 4) return; // Ensure there are enough columns
-                const patientId = row[0];
-                const genomic = row[1];
-                const subgenomic = row[2];
-                const RPN_ct = row[3];
-                var delta_delta = ((subgenomic - genomic) - RPN_ct);
-                var fold = Math.pow(2, -delta_delta);
-
-                if (RPN_ct > 38) {
-                    results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Invalid run due to RNAse P Ct values'});
-                } else {
-                    if (genomic <= 23) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
-                    } else if (genomic >= 40 && subgenomic >= 40) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for SARS-CoV-2'});
-                    } else if (genomic >= 40 && subgenomic < 40) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Invalid run due to Inconsistency'});
-                    } else if (genomic >= 35) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
-                    } else if (genomic >= 36 && genomic <= 40) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
-                    } else if (genomic > 23 && genomic <= 35) {
-                        if (fold >= 1618756) {
-                            results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
-                        } else if (fold < 1618756) {
-                            results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
-                        }
-                    }
-                }
-            });
-
-            // Display the results
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = '';
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            const tbody = document.createElement('tbody');
-            table.appendChild(thead);
-            table.appendChild(tbody);
-            outputDiv.appendChild(table);
-
-            const headerRow = document.createElement('tr');
-            headerRow.innerHTML = '<th>Patient ID</th><th>Genomic Ct</th><th>Subgenomic Ct</th><th>RNAse P Ct</th><th>Result</th>';
-            thead.appendChild(headerRow);
-
-            results.forEach(result => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${result.id}</td><td>${result.genomic}</td><td>${result.subgenomic}</td><td>${result.RPN}</td><td>${result.result}</td>`;
-                tbody.appendChild(row);
-            });
-
-            // Show the download button
-            document.getElementById('downloadBtn').style.display = 'block';
-        };
-
-        if (readMethod === 'readAsText') {
-            reader.readAsText(file);
-        } else if (readMethod === 'readAsArrayBuffer') {
-            reader.readAsArrayBuffer(file);
-        }
-    }
-
-    function resetBulkProcessing() {
-        document.getElementById('fileInput').value = '';
-        document.getElementById('output').innerHTML = '';
-        document.getElementById('downloadBtn').style.display = 'none';
-    }
-
-    function downloadResults() {
-        const results = [];
-        const tableRows = document.querySelectorAll('#output table tbody tr');
-        tableRows.forEach(row => {
-            const cells = row.cells;
-            results.push({id: cells[0].textContent, genomic: cells[1].textContent, subgenomic: cells[2].textContent, RPN: cells[3].textContent, result: cells[4].textContent});
-        });
-
-        const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
-
-        results.forEach(result => {
-            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
-            csvContent += row + "\n";
-        });
-
-        const blob = new Blob([csvContent], {type: 'text/csv'});
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "sars_cov_2_results.csv";
-        link.click();
-        URL.revokeObjectURL(url);
-    }
+if (RPN_ct > 38) { 
+        document.getElementById("result").innerHTML =  "Result:" +'Invalid run due to RNAse P Ct values';
+} 
+if (RPN_ct <= 38) { 
+   if (genomic <= 23) { 
+        document.getElementById("result").innerHTML = "Result: " +  'Sample is Positive for actively replicating SARS-CoV-2 Virus';
+} else if (genomic >= 40 && subgenomic >= 40 ) { 
+  document.getElementById("result").innerHTML = "Result: " + 'Sample is Negative for SARS-CoV-2';
+} else if (genomic >= 40 && subgenomic < 40) { 
+  document.getElementById("result").innerHTML = "Result: " + 'Invalid run due to Inconsistency';
+} else if (genomic >= 35 ) { 
+  document.getElementById("result").innerHTML = "Result: " + 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus';
+} else if (genomic >= 36 && genomic <= 40) { 
+        document.getElementById("result").innerHTML = "Result:" + 'Sample is Negative for actively replicating SARS-CoV-2 Virus';
+} else if (genomic > 23 && genomic <= 35) {
+    if (fold >= 1618756) { 
+        document.getElementById('result').innerHTML = "Result: " + 'Sample is Positive for actively replicating SARS-CoV-2 Virus'; 
+        
+} else if (fold < 1618756) { 
+        document.getElementById('result').innerHTML = "Result:" + 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.';
+    } 
+}
+  }      
+}
+    
 </script>
-</body>
-</html>
+<script>
+document.addEventListener("keydown", function(e){
+  // USE THIS TO DISABLE CONTROL AND ALL FUNCTION KEYS
+  // if (e.ctrlKey || (e.keyCode>=112 && e.keyCode<=123)) {
+  // THIS WILL ONLY DISABLE CONTROL AND F12
+  if (e.ctrlKey || e.keyCode==123) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+});
+</script>
+<script>
+  function myFunction() {
+  document.getElementById("myForm").reset();
+  document.getElementById("result").innerHTML = "Result:";
+
+}
+</script>
