@@ -57,7 +57,7 @@
 
 <!-- Bulk Sample Processing Section -->
 <h3>Bulk Sample Processing</h3>
-<input type="file" id="fileInput" accept=".csv, .tsv, .xlsx" />
+<input type="file" id="fileInput" accept=".csv, .tsv, .xlsx, .xls" />
 <button onclick="handleFile()">Upload and Analyze</button>
 <div id="output"></div>
 <button id="downloadBtn" style="display:none;" onclick="downloadResults()">Download Results</button>
@@ -105,10 +105,28 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const data = e.target.result;
-            const workbook = XLSX.read(data, {type: 'binary'});
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+            let json;
+
+            // Check the file extension
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension === 'csv') {
+                // Parse CSV
+                const rows = data.split('\n').map(row => row.split(','));
+                json = rows; // Convert to a 2D array
+            } else if (fileExtension === 'tsv') {
+                // Parse TSV
+                const rows = data.split('\n').map(row => row.split('\t'));
+                json = rows; // Convert to a 2D array
+            } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+                // Parse XLSX or XLS
+                const workbook = XLSX.read(data, {type: 'binary'});
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+            } else {
+                alert('Unsupported file type. Please upload a .csv, .tsv, .xlsx, or .xls file.');
+                return;
+            }
 
             // Process the data
             const results = [];
@@ -137,7 +155,7 @@
                         if (fold >= 1618756) {
                             results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
-                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
+                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN _ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
                     }
                 }
@@ -180,7 +198,7 @@
         const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
 
         results.forEach(result => {
-            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
+ const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
             csvContent += row + "\n";
         });
 
