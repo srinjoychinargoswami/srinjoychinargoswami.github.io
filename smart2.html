@@ -65,8 +65,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script>
-    let fileType = ''; // Variable to store the input file type
-
     function genomic() {
         var genomic = Number(document.getElementById("Genomic").value);
         var subgenomic = Number(document.getElementById("Subgenomic").value);
@@ -83,8 +81,8 @@
                 document.getElementById("result").innerHTML = "Result: Sample is Negative for SARS-CoV-2";
             } else if (genomic >= 40 && subgenomic < 40) {
                 document.getElementById("result").innerHTML = "Result: Invalid run due to Inconsistency";
-            } else if (genomic >=  35) {
-                document.getElementById ("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
+            } else if (genomic >= 35) {
+                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
             } else if (genomic >= 36 && genomic <= 40) {
                 document.get Eleme ntById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
@@ -105,16 +103,11 @@
     function handleFile() {
         const fileInput = document.getElementById('fileInput');
         const file = fileInput.files[0];
-        if (!file) {
-            alert('Please select a file to upload.');
-            return;
-        }
         const reader = new FileReader();
         let readMethod;
 
         // Check the file extension
         const fileExtension = file.name.split('.').pop().toLowerCase();
-        fileType = fileExtension; // Store the input file type
         if (fileExtension === 'csv' || fileExtension === 'tsv') {
             readMethod = 'readAsText';
         } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
@@ -162,8 +155,8 @@
                     } else if (genomic >= 35) {
                         results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
                     } else if (genomic >= 36 && genomic <= 40) {
-                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct , result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
- } else if (genomic > 23 && genomic <= 35) {
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
+                    } else if (genomic > 23 && genomic <= 35) {
                         if (fold >= 1618756) {
                             results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
@@ -208,7 +201,6 @@
         document.getElementById('fileInput').value = '';
         document.getElementById('output').innerHTML = '';
         document.getElementById('downloadBtn').style.display = 'none';
-        document.getElementById('fileInput').value = null; // Reset the file input
     }
 
     function downloadResults() {
@@ -219,31 +211,18 @@
             results.push({id: cells[0].textContent, genomic: cells[1].textContent, subgenomic: cells[2].textContent, RPN: cells[3].textContent, result: cells[4].textContent});
         });
 
-        let fileContent = '';
-        if (fileType === 'csv') {
-            fileContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
-            results.forEach(result => {
-                const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
-                fileContent += row + "\n";
-            });
-        } else if (fileType === 'tsv') {
-            fileContent = "Patient ID\tGenomic Ct\tSubgenomic Ct\tRNAse P Ct\tResult\n"; // Header
-            results.forEach(result => {
-                const row = `${result.id}\t${result.genomic}\t${result.subgenomic}\t${result.RPN}\t${result.result}`;
-                fileContent += row + "\n";
-            });
-        } else if (fileType === 'xlsx' || fileType === 'xls') {
-            const workbook = XLSX.utils.book_new();
-            const worksheet = XLSX.utils.json_to_sheet(results);
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Results');
-            fileContent = XLSX.write(workbook, {type: 'array', bookType: fileType});
-        }
+        const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
 
-        const blob = new Blob([fileContent], {type: `text/${fileType}`});
+        results.forEach(result => {
+            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
+            csvContent += row + "\n";
+        });
+
+        const blob = new Blob([csvContent], {type: 'text/csv'});
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `sars_cov_2_results.${fileType}`;
+        link.download = "sars_cov_2_results.csv";
         link.click();
         URL.revokeObjectURL(url);
     }
