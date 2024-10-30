@@ -104,29 +104,33 @@
         const fileInput = document.getElementById('fileInput');
         const file = fileInput.files[0];
         const reader = new FileReader();
+        let readMethod;
+
+        // Check the file extension
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        if (fileExtension === 'csv' || fileExtension === 'tsv') {
+            readMethod = 'readAsText';
+        } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+            readMethod = 'readAsBinaryString';
+        } else {
+            alert('Unsupported file type. Please upload a .csv, .tsv, .xlsx, or .xls file.');
+            return;
+        }
+
         reader.onload = function(e) {
             const data = e.target.result;
             let json;
 
-            // Check the file extension
-            const fileExtension = file.name.split('.').pop().toLowerCase();
-            if (fileExtension === 'csv') {
-                // Parse CSV
-                const rows = data.split('\n').map(row => row.split(',').map(cell => cell.trim()));
+            if (readMethod === 'readAsText') {
+                // Parse CSV or TSV
+                const rows = data.split('\n').map(row => row.split(fileExtension === 'csv' ? ',' : '\t').map(cell => cell.trim()));
                 json = rows.filter(row => row.length > 0); // Remove empty rows
-            } else if (fileExtension === 'tsv') {
-                // Parse TSV
-                const rows = data.split('\n').map(row => row.split('\t').map(cell => cell.trim()));
-                json = rows.filter(row => row.length > 0); // Remove empty rows
-            } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+            } else if (readMethod === 'readAsBinaryString') {
                 // Parse XLSX or XLS
                 const workbook = XLSX.read(data, {type: 'binary'});
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
-            } else {
-                alert('Unsupported file type. Please upload a .csv, .tsv, .xlsx, or .xls file.');
-                return;
             }
 
             // Process the data
@@ -185,7 +189,12 @@
             // Show the download button
             document.getElementById('downloadBtn').style.display = 'block';
         };
-        reader.readAsText(file);
+
+        if (readMethod === 'readAsText') {
+            reader.readAsText(file);
+        } else if (readMethod === 'readAsBinaryString') {
+            reader.readAsBinaryString(file);
+        }
     }
 
     function resetBulkProcessing() {
