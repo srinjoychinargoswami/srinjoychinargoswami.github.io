@@ -114,30 +114,30 @@
             const results = [];
             json.forEach(row => {
                 const patientId = row[0];
-                const RPN_ct = row[1];
-                const genomic = row[2];
-                const subgenomic = row[3];
+                const genomic = row[1];
+                const subgenomic = row[2];
+                const RPN_ct = row[3];
                 var delta_delta = ((subgenomic - genomic) - RPN_ct);
                 var fold = Math.pow(2, -delta_delta);
 
                 if (RPN_ct > 38) {
-                    results.push({id: patientId, result: 'Invalid run due to RNAse P Ct values'});
+                    results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Invalid run due to RNAse P Ct values'});
                 } else {
                     if (genomic <= 23) {
-                        results.push({id: patientId, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
                     } else if (genomic >= 40 && subgenomic >= 40) {
-                        results.push({id: patientId, result: 'Sample is Negative for SARS-CoV-2'});
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for SARS-CoV-2'});
                     } else if (genomic >= 40 && subgenomic < 40) {
-                        results.push({id: patientId, result: 'Invalid run due to Inconsistency'});
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Invalid run due to Inconsistency'});
                     } else if (genomic >= 35) {
-                        results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
                     } else if (genomic >= 36 && genomic <= 40) {
-                        results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
+                        results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
                     } else if (genomic > 23 && genomic <= 35) {
                         if (fold >= 1618756) {
-                            results.push({id: patientId, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus'});
+                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
-                            results.push({id: patientId, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
+                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
                     }
                 }
@@ -154,12 +154,12 @@
             outputDiv.appendChild(table);
 
             const headerRow = document.createElement('tr');
-            headerRow.innerHTML = '<th>Patient ID</th><th>Result</th>';
+            headerRow.innerHTML = '<th>Patient ID</th><th>Genomic Ct</th><th>Subgenomic Ct</th><th>RNAse P Ct</th><th>Result</th>';
             thead.appendChild(headerRow);
 
             results.forEach(result => {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${result.id}</td><td>${result.result}</td>`;
+                row.innerHTML = `<td>${result.id}</td><td>${result.genomic}</td><td>${result.subgenomic}</td><td>${result.RPN}</td><td>${result.result}</td>`;
                 tbody.appendChild(row);
             });
 
@@ -174,13 +174,13 @@
         const tableRows = document.querySelectorAll('#output table tbody tr');
         tableRows.forEach(row => {
             const cells = row.cells;
-            results.push({id: cells[0].textContent, result: cells[1].textContent});
+            results.push({id: cells[0].textContent, genomic: cells[1].textContent, subgenomic: cells[2].textContent, RPN: cells[3].textContent, result: cells[4].textContent});
         });
 
-        const csvContent = "Patient ID,Result\n"; // Header
+        const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
 
         results.forEach(result => {
-            const row = `${result.id},${result.result}`;
+            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
             csvContent += row + "\n";
         });
 
