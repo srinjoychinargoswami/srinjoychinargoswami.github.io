@@ -82,7 +82,7 @@
             } else if (genomic >= 40 && subgenomic < 40) {
                 document.getElementById("result").innerHTML = "Result: Invalid run due to Inconsistency";
             } else if (genomic >= 35) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
+                document.getElementById("result").innerHTML = "Result : Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
             } else if (genomic >= 36 && genomic <= 40) {
  document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
@@ -111,7 +111,7 @@
         if (fileExtension === 'csv' || fileExtension === 'tsv') {
             readMethod = 'readAsText';
         } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-            readMethod = 'readAsBinaryString';
+            readMethod = 'readAsArrayBuffer';
         } else {
             alert('Unsupported file type. Please upload a .csv, .tsv, .xlsx, or .xls file.');
             return;
@@ -125,9 +125,9 @@
                 // Parse CSV or TSV
                 const rows = data.split('\n').map(row => row.split(fileExtension === 'csv' ? ',' : '\t').map(cell => cell.trim()));
                 json = rows.filter(row => row.length > 0); // Remove empty rows
-            } else if (readMethod === 'readAsBinaryString') {
+            } else if (readMethod === 'readAsArrayBuffer') {
                 // Parse XLSX or XLS
-                const workbook = XLSX.read(data, {type: 'binary'});
+                const workbook = XLSX.read(data, {type: 'array'});
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
                 json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
@@ -158,7 +158,7 @@
                         results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
                     } else if (genomic > 23 && genomic <= 35) {
                         if (fold >= 1618756) {
-                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
+                            results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
                             results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
@@ -192,8 +192,8 @@
 
         if (readMethod === 'readAsText') {
             reader.readAsText(file);
-        } else if (readMethod === 'readAsBinaryString') {
-            reader.readAsBinaryString(file);
+        } else if (readMethod === 'readAsArrayBuffer') {
+            reader.readAsArrayBuffer(file);
         }
     }
 
