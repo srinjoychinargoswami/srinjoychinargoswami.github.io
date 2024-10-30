@@ -59,6 +59,7 @@
 <h3>Bulk Sample Processing</h3>
 <input type="file" id="fileInput" accept=".csv, .tsv, .xlsx, .xls" />
 <button onclick="handleFile()">Upload and Analyze</button>
+<button id="resetBulkBtn" onclick="resetBulkProcessing()">Reset Bulk Processing</button>
 <div id="output"></div>
 <button id="downloadBtn" style="display:none;" onclick="downloadResults()">Download Results</button>
 
@@ -83,7 +84,7 @@
             } else if (genomic >= 35) {
                 document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
             } else if (genomic >= 36 && genomic <= 40) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
+ document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
                 if (fold >= 1618756) {
                     document.getElementById('result').innerHTML = "Result: Sample is Positive for actively replicating SARS-CoV-2 Virus";
@@ -155,7 +156,7 @@
                         if (fold >= 1618756) {
                             results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
-                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
+                            results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
                     }
                 }
@@ -185,6 +186,12 @@
             document.getElementById('downloadBtn').style.display = 'block';
         };
         reader.readAsText(file);
+    }
+
+    function resetBulkProcessing() {
+        document.getElementById('fileInput').value = '';
+        document.getElementById('output').innerHTML = '';
+        document.getElementById('downloadBtn').style.display = 'none';
     }
 
     function downloadResults() {
