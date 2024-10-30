@@ -4,6 +4,37 @@
     <meta charset="utf-8">
     <title>SARS-CoV-2 SMART-Assay</title>
     <link rel="stylesheet" href="style_covid_19.css">
+    <style>
+        /* Additional styles for formatting */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        table {
+            width: 100%; /* Make the table take the full width */
+            border-collapse: collapse; /* Combine borders */
+            margin-top: 20px; /* Space above the table */
+        }
+
+        th, td {
+            border: 1px solid #000; /* Solid border for cells */
+            padding: 10px; /* Padding inside cells */
+            text-align: left; /* Align text to the left */
+        }
+
+        th {
+            background-color: #f2f2f2; /* Light background for header */
+            font-weight: bold; /* Bold text for headers */
+            font-size: 1.2em; /* Larger font size for headers */
+        }
+
+        /* Space between buttons */
+        input[type="button"] {
+            margin-top: 10px; /* Space above buttons */
+            margin-right: 10px; /* Space to the right of buttons */
+        }
+    </style>
 </head>
 <header>
     <center><h1>SARS-CoV-2 SMART-Assay</h1></center>
@@ -41,7 +72,15 @@
 <input type="file" id="fileInput" accept=".xlsx, .xls, .csv, .tsv" />
 <input type="button" value="Upload and Analyze" onclick="uploadAndAnalyze()" />
 <table id="resultsTable" border="1">
-   
+    <thead>
+        <tr>
+            <th>Patient ID</th>
+            <th>Genomic Ct</th>
+            <th>Subgenomic Ct</th>
+            <th>RPN Ct</th>
+            <th>Result</th>
+        </tr>
+    </thead>
     <tbody></tbody>
 </table>
 <input type="button" value="Download Results" onclick="downloadResults()" />
