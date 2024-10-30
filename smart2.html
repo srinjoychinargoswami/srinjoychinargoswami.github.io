@@ -159,7 +159,7 @@
                         results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus'});
                     } else if (genomic >= 36 && genomic <= 40) {
                         results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus'});
-                    } else if (genomic > 23 && genomic <= 35) {
+ } else if (genomic > 23 && genomic <= 35) {
                         if (fold >= 1618756) {
                             results.push({id : patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
@@ -204,6 +204,7 @@
         document.getElementById('fileInput').value = '';
         document.getElementById('output').innerHTML = '';
         document.getElementById('downloadBtn').style.display = 'none';
+        document.getElementById('fileInput').value = null; // Reset the file input
     }
 
     function downloadResults() {
