@@ -65,6 +65,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script>
+    let fileType = ''; // Variable to store the input file type
+
     function genomic() {
         var genomic = Number(document.getElementById("Genomic").value);
         var subgenomic = Number(document.getElementById("Subgenomic").value);
@@ -82,7 +84,7 @@
             } else if (genomic >= 40 && subgenomic < 40) {
                 document.getElementById("result").innerHTML = "Result: Invalid run due to Inconsistency";
             } else if (genomic >= 35) {
-                document.getElementById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
+                document.getElementById ("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for presence of SARS-CoV-2 Virus";
             } else if (genomic >= 36 && genomic <= 40) {
                 document.get Eleme ntById("result").innerHTML = "Result: Sample is Negative for actively replicating SARS-CoV-2 Virus";
             } else if (genomic > 23 && genomic <= 35) {
@@ -108,6 +110,7 @@
 
         // Check the file extension
         const fileExtension = file.name.split('.').pop().toLowerCase();
+        fileType = fileExtension; // Store the input file type
         if (fileExtension === 'csv' || fileExtension === 'tsv') {
             readMethod = 'readAsText';
         } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
@@ -211,18 +214,31 @@
             results.push({id: cells[0].textContent, genomic: cells[1].textContent, subgenomic: cells[2].textContent, RPN: cells[3].textContent, result: cells[4].textContent});
         });
 
-        const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
+        let fileContent = '';
+        if (fileType === 'csv') {
+            fileContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
+            results.forEach(result => {
+                const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
+                fileContent += row + "\n";
+            });
+        } else if (fileType === 'tsv') {
+            fileContent = "Patient ID\tGenomic Ct\tSubgenomic Ct\tRNAse P Ct\tResult\n"; // Header
+            results.forEach(result => {
+                const row = `${result.id}\t${result.genomic}\t${result.subgenomic}\t${result.RPN}\t${result.result}`;
+                fileContent += row + "\n";
+            });
+        } else if (fileType === 'xlsx' || fileType === 'xls') {
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.json_to_sheet(results);
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Results');
+            fileContent = XLSX.write(workbook, {type: 'array', bookType: fileType});
+        }
 
-        results.forEach(result => {
-            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
-            csvContent += row + "\n";
-        });
-
-        const blob = new Blob([csvContent], {type: 'text/csv'});
+        const blob = new Blob([fileContent], {type: `text/${fileType}`});
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "sars_cov_2_results.csv";
+        link.download = `sars_cov_2_results.${fileType}`;
         link.click();
         URL.revokeObjectURL(url);
     }
