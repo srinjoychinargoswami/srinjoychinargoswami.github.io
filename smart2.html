@@ -111,12 +111,12 @@
             const fileExtension = file.name.split('.').pop().toLowerCase();
             if (fileExtension === 'csv') {
                 // Parse CSV
-                const rows = data.split('\n').map(row => row.split(','));
-                json = rows; // Convert to a 2D array
+                const rows = data.split('\n').map(row => row.split(',').map(cell => cell.trim()));
+                json = rows.filter(row => row.length > 0); // Remove empty rows
             } else if (fileExtension === 'tsv') {
                 // Parse TSV
-                const rows = data.split('\n').map(row => row.split('\t'));
-                json = rows; // Convert to a 2D array
+                const rows = data.split('\n').map(row => row.split('\t').map(cell => cell.trim()));
+                json = rows.filter(row => row.length > 0); // Remove empty rows
             } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
                 // Parse XLSX or XLS
                 const workbook = XLSX.read(data, {type: 'binary'});
@@ -155,7 +155,7 @@
                         if (fold >= 1618756) {
                             results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Positive for actively replicating SARS-CoV-2 Virus '});
                         } else if (fold < 1618756) {
-                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN _ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
+                            results.push({id: patientId, genomic: genomic, subgenomic: subgenomic, RPN: RPN_ct, result: 'Sample is Negative for actively replicating SARS-CoV-2 Virus. Sample is Positive for the presence of SARS-CoV-2 Virus.'});
                         }
                     }
                 }
@@ -184,7 +184,7 @@
             // Show the download button
             document.getElementById('downloadBtn').style.display = 'block';
         };
-        reader.readAsBinaryString(file);
+        reader.readAsText(file);
     }
 
     function downloadResults() {
@@ -198,14 +198,14 @@
         const csvContent = "Patient ID,Genomic Ct,Subgenomic Ct,RNAse P Ct,Result\n"; // Header
 
         results.forEach(result => {
- const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
+            const row = `${result.id},${result.genomic},${result.subgenomic},${result.RPN},${result.result}`;
             csvContent += row + "\n";
         });
 
         const blob = new Blob([csvContent], {type: 'text/csv'});
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
- link.href = url;
+        link.href = url;
         link.download = "sars_cov_2_results.csv";
         link.click();
         URL.revokeObjectURL(url);
